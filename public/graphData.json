@@ -1,0 +1,357 @@
+{
+  "nodes": [
+    {
+      "id": "foundations",
+      "name": "0. Foundations",
+      "color": "gray",
+      "isNumber": true,
+      "level": 1
+    },
+    {
+      "id": "basic-ros2",
+      "name": "1. Basic ROS2",
+      "color": "gray",
+      "isNumber": true,
+      "level": 2
+    },
+    {
+      "id": "ros-basics",
+      "name": "2. ROS Basics",
+      "color": "lightgray",
+      "isNumber": true,
+      "level": 2
+    },
+    {
+      "id": "intermediate-ros2",
+      "name": "3. Intermediate ROS2",
+      "isNumber": true,
+      "color": "gray",
+      "level": 3
+    },
+    {
+      "id": "robotics-theory",
+      "name": "4. Robotics Theory",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "navigation-ros2",
+      "name": "5. Navigation ROS2",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 3
+    },
+    {
+      "id": "manipulation",
+      "name": "7. Manipulation",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "robot-creation",
+      "name": "8. Robot Creation",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "artificial-intelligence",
+      "name": "9. Artificial Intelligence",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "ros-debugging",
+      "name": "10. ROS Debugging",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "course-of-product",
+      "name": "11. Course of Product",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "web-devel-for-robots",
+      "name": "12. Web Devel for Robots",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "simulation",
+      "name": "13. Simulation",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "enterprise",
+      "name": "14. Enterprise",
+      "isNumber": true,
+      "color": "lightgray",
+      "level": 1
+    },
+    {
+      "id": "linux-for-robotics",
+      "name": "Linux for robotics",
+      "color": "lightgray",
+      "level": 2,
+      "img": "https://api.multiavatar.com/Bin1%20Bond.svg"
+    },
+    {
+      "id": "cpp-basics-for-robotics",
+      "name": "C++ Basics for robotics",
+      "color": "lightgray",
+      "level": 2,
+      "img": "https://api.multiavatar.com/Bin2%20Bond.svg"
+    },
+    {
+      "id": "python-3-for-robotics",
+      "name": "Python 3 for robotics",
+      "color": "lightgray",
+      "level": 2,
+      "img": "https://api.multiavatar.com/Bin3%20Bond.svg"
+    },
+    {
+      "id": "urdf-modelling",
+      "name": "URDF Robot Modelling ROS2",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin4%20Bond.svg"
+    },
+    {
+      "id": "ros2-basics-in-5-days-cpp",
+      "name": "ROS2 Basics in 5 days(C++)",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin5%20Bond.svg"
+    },
+    {
+      "id": "ros2-basics-in-5-days-python",
+      "name": "ROS2 Basics in 5 days(Python)",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin6%20Bond.svg"
+    },
+    {
+      "id": "ros2-basics-in-5-days-rust",
+      "name": "ROS2 Basics in 5 days(Rust)",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin7%20Bond.svg"
+    },
+    {
+      "id": "tf-in-ros2",
+      "name": "TF in ROS2",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin8%20Bond.svg"
+    },
+    {
+      "id": "gazebo-sim-with-ros2",
+      "name": "Gazebo Sim with ROS2",
+      "color": "lightgray",
+      "level": 3,
+      "img": "https://api.multiavatar.com/Bin9%20Bond.svg"
+    },
+    {
+      "id": "ros1-ros2-migration",
+      "name": "ROS1-ROS2 Migration",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin10%20Bond.svg"
+    },
+    {
+      "id": "behavior-trees",
+      "name": "Behavior Trees for ROS2",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin11%20Bond.svg"
+    },
+    {
+      "id": "advanced-modern-cpp",
+      "name": "Advanced Modern C++ for robotics",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin12%20Bond.svg"
+    },
+    {
+      "id": "intermediate-ros2-python",
+      "name": "Intermediate ROS2(Python)",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin13%20Bond.svg"
+    },
+    {
+      "id": "intermediate-ros2-cpp",
+      "name": "Intermediate ROS2(C++)",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin14%20Bond.svg"
+    },
+    {
+      "id": "ros2-control",
+      "name": "ROS2 Control",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin15%20Bond.svg"
+    },
+    {
+      "id": "ros2-security",
+      "name": "ROS2 Security",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin16%20Bond.svg"
+    },
+    {
+      "id": "nav2-basics",
+      "name": "Nav2 Basics",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin17%20Bond.svg"
+    },
+    {
+      "id": "naw-advanced",
+      "name": "Naw Advanced",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin18%20Bond.svg"
+    },
+    {
+      "id": "rtab",
+      "name": "RTAB",
+      "color": "lightgray",
+      "level": 4,
+      "img": "https://api.multiavatar.com/Bin19%20Bond.svg"
+    }
+  ],
+  "links": [
+    {
+      "source": "foundations",
+      "target": "basic-ros2",
+      "name": "Link: Foundations to Basic ROS2"
+    },
+    {
+      "source": "foundations",
+      "target": "ros-basics",
+      "name": "Link: Foundations to ROS Basics"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "intermediate-ros2",
+      "name": "Link: Basic ROS2 to Intermediate ROS2"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "navigation-ros2",
+      "name": "Link: Basic ROS2 to Navigation ROS2"
+    },
+    {
+      "source": "foundations",
+      "target": "cpp-basics-for-robotics",
+      "name": "Link: Foundations to C++ Basics for robotics"
+    },
+    {
+      "source": "foundations",
+      "target": "linux-for-robotics",
+      "name": "Link: Foundations to Linux for robotics"
+    },
+    {
+      "source": "foundations",
+      "target": "python-3-for-robotics",
+      "name": "Link: Foundations to Python for robotics"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "urdf-modelling",
+      "name": "Link: Basic ROS2 to URDF robot modelling ROS2"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "ros2-basics-in-5-days-cpp",
+      "name": "Link: Basic ROS2 to ROS2 Basics in 5 days(C++)"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "ros2-basics-in-5-days-python",
+      "name": "Link: Basic ROS2 to ROS2 Basics in 5 days(Python)"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "ros2-basics-in-5-days-rust",
+      "name": "Link: Basic ROS2 to ROS2 Basics in 5 days(Rust)"
+    },
+    {
+      "source": "basic-ros2",
+      "target": "tf-in-ros2",
+      "name": "Link: Basic ROS2 to TF in ROS2"
+    },
+    {
+      "source": "navigation-ros2",
+      "target": "naw-advanced",
+      "name": "Link: 5. Navigation ROS2 to Naw Advanced"
+    },
+    {
+      "source": "navigation-ros2",
+      "target": "rtab",
+      "name": "Link: 5. Navigation ROS2 to RTAB"
+    },
+    {
+      "source": "navigation-ros2",
+      "target": "nav2-basics",
+      "name": "Link: 5. Navigation ROS2 to Nav2 Basics"
+    },
+    {
+      "source": "ros-basics",
+      "target": "gazebo-sim-with-ros2",
+      "name": "Link: 2. ROS Basics to Gazebo Sim with ROS2"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "ros1-ros2-migration",
+      "name": "Link: 3. Intermediate ROS2 to ROS1-ROS2 Migration"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "behavior-trees",
+      "name": "Link: 3. Intermediate ROS2 to Behavior Trees for ROS2"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "advanced-modern-cpp",
+      "name": "Link: 3. Intermediate ROS2 to Advanced Modern C++ for robotics"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "intermediate-ros2-python",
+      "name": "Link: 3. Intermediate ROS2 to Intermediate ROS2(Python)"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "intermediate-ros2-cpp",
+      "name": "Link: 3. Intermediate ROS2 to Intermediate ROS2(C++)"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "ros2-control",
+      "name": "Link: 3. Intermediate ROS2 to ROS2 Control"
+    },
+    {
+      "source": "intermediate-ros2",
+      "target": "ros2-security",
+      "name": "Link: 3. Intermediate ROS2 to ROS2 Security"
+    },
+    {
+      "source": "ros-debugging",
+      "target": "ros-debugging",
+      "name": "Link: 10. ROS Debugging to 10. ROS Debugging"
+    }
+  ]
+}
