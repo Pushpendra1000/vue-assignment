@@ -2,99 +2,99 @@
   "nodes": [
     {
       "id": "foundations",
-      "name": "0. Foundations",
+      "name": "Foundations",
+      "courseId": 0,
       "color": "gray",
-      "isNumber": true,
       "level": 1
     },
     {
       "id": "basic-ros2",
-      "name": "1. Basic ROS2",
+      "name": "Basic ROS2",
+      "courseId": 1,
       "color": "gray",
-      "isNumber": true,
       "level": 2
     },
     {
       "id": "ros-basics",
-      "name": "2. ROS Basics",
+      "name": "ROS Basics",
+      "courseId": 2,
       "color": "lightgray",
-      "isNumber": true,
       "level": 2
     },
     {
       "id": "intermediate-ros2",
-      "name": "3. Intermediate ROS2",
-      "isNumber": true,
+      "name": "Intermediate ROS2",
+      "courseId": 3,
       "color": "gray",
       "level": 3
     },
     {
       "id": "robotics-theory",
-      "name": "4. Robotics Theory",
-      "isNumber": true,
+      "name": "Robotics Theory",
+      "courseId": 4,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "navigation-ros2",
-      "name": "5. Navigation ROS2",
-      "isNumber": true,
+      "name": "Navigation ROS2",
+      "courseId": 5,
       "color": "lightgray",
       "level": 3
     },
     {
       "id": "manipulation",
-      "name": "7. Manipulation",
-      "isNumber": true,
+      "name": "Manipulation",
+      "courseId": 7,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "robot-creation",
-      "name": "8. Robot Creation",
-      "isNumber": true,
+      "name": "Robot Creation",
+      "courseId": 8,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "artificial-intelligence",
-      "name": "9. Artificial Intelligence",
-      "isNumber": true,
+      "name": "Artificial Intelligence",
+      "courseId": 9,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "ros-debugging",
-      "name": "10. ROS Debugging",
-      "isNumber": true,
+      "name": "ROS Debugging",
+      "courseId": 10,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "course-of-product",
-      "name": "11. Course of Product",
-      "isNumber": true,
+      "name": "Course of Product",
+      "courseId": 11,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "web-devel-for-robots",
-      "name": "12. Web Devel for Robots",
-      "isNumber": true,
+      "name": "Web Devel for Robots",
+      "courseId": 12,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "simulation",
-      "name": "13. Simulation",
-      "isNumber": true,
+      "name": "Simulation",
+      "courseId": 13,
       "color": "lightgray",
       "level": 1
     },
     {
       "id": "enterprise",
-      "name": "14. Enterprise",
-      "isNumber": true,
+      "name": "Enterprise",
+      "courseId": 14,
       "color": "lightgray",
       "level": 1
     },

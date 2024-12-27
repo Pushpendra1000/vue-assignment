@@ -1,56 +1,42 @@
 import { NodeState } from "./nodeState";
 
 let nodeState = null;
+
 let graphData = null;
-let graphDataPromise = null;
 
 async function fetchGraphData() {
-  if (graphData) {
-    return graphData;
+  try {
+    const response = await fetch("./graphData.json");
+    graphData = await response.json();
+  } catch (error) {
+    console.error("Failed to fetch graph data:", error);
+    throw error;
   }
-  if (!graphDataPromise) {
-    graphDataPromise = fetch("public/graphData.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        graphData = data;
-        return graphData;
-      })
-      .catch((error) => {
-        console.error("Failed to fetch graph data:", error);
-        throw error;
-      });
-  }
-  return graphDataPromise;
 }
 
-export const initializeNodeState = async () => {
-  if (!nodeState) {
-    const data = await fetchGraphData();
-    const numOfCourses = data?.nodes?.reduce((acc, val) => {
-      if (val.isNumber) {
-        acc++;
+const getCoursesData = async () => {
+  await fetchGraphData();
+  if (graphData) {
+    const { numOfCourses, numOfModules } = getNodeCategoryCounts(graphData);
+    nodeState = new NodeState(numOfCourses, numOfModules);
+    return { numOfCourses, graphData, numOfModules };
+  }
+  return null;
+};
+
+const getNodeCategoryCounts = (data) => {
+  const counts = data?.nodes?.reduce(
+    (acc, val) => {
+      if (!isNaN(val.courseId)) {
+        acc["numOfCourses"] = Math.max(val.courseId, acc["numOfCourses"]);
+      } else {
+        acc["numOfModules"]++;
       }
       return acc;
-    }, 0);
-    nodeState = new NodeState(numOfCourses);
-  }
-  return nodeState;
-};
+    },
+    { numOfCourses: 0, numOfModules: 0 }
+  );
 
-export const getNumOfCourses = async () => {
-  const data = await fetchGraphData();
-  const numOfCourses = data?.nodes?.reduce((acc, val) => {
-    if (val.isNumber) {
-      acc++;
-    }
-    return acc;
-  }, 0);
-  return { numOfCourses, graphData: data };
+  return counts;
 };
-
-export { nodeState };
+export { nodeState, getCoursesData };

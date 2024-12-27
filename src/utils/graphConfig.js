@@ -1,70 +1,102 @@
-import { palettes, linkColor, defaultImage } from "./constant";
-import { initializeNodeState, nodeState } from "../utils/helper";
+import { palettes, graphConfigSetup, defaultImage } from "./constant";
+import { nodeState } from "../utils/helper";
 
-initializeNodeState().then(() => {});
+const {
+  linkColor,
+  arrowLength,
+  linkArrowColor,
+  minZoom,
+  centerAtX,
+  centerAtY,
+  distanceMax,
+  activelinkColor,
+  nodeColor,
+} = graphConfigSetup;
+
+
+/**
+ * Calculates the radius of a node based on its level, global scale, and other configurable parameters.
+ *
+ * @param {number} level - The depth or hierarchy level of the node. Higher levels result in smaller node sizes.
+ * @param {number} globalScale - The scaling factor applied globally to adjust the node size relative to the graph zoom level.
+ * @param {number} [baseSize=18] - The default size of a node at the root or lowest level (level 0).
+ * @param {number} [minSize=4] - The minimum allowable size for a node, ensuring it remains visible even at deep levels.
+ * @param {number} [levelFactor=1.5] - The factor by which the node size decreases for each level.
+ * @returns {number} - The calculated radius of the node, scaled by the global zoom level.
+ */
+const calculateNodeRadius = (
+  level,
+  globalScale,
+  baseSize = 18,
+  minSize = 4,
+  levelFactor = 1.5
+) => {
+  return Math.max(baseSize - levelFactor * level, minSize) / globalScale;
+};
+
+const drawNodeImage = (ctx, img, x, y, radius) => {
+  if (img.complete) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+    ctx.clip();
+    ctx.drawImage(img, x - radius, y - radius, 2 * radius, 2 * radius);
+    ctx.restore();
+  }
+};
+
+const drawColoredNode = (ctx, x, y, radius, color) => {
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
+  ctx.fillStyle = color;
+  ctx.fill();
+};
 
 const drawNode = (n, ctx, globalScale) => {
-  const fontSize = 8 / globalScale;
+  const fontSize = 9 / globalScale;
   ctx.font = `${fontSize}px Arial`;
   ctx.fillStyle = "black";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  const baseSize = 18; 
-  const minSize = 4; 
-  const levelFactor = 2;
-  const nodeRadius =
-    Math.max(baseSize - levelFactor * n.level, minSize) / globalScale;
+  const nodeRadius = calculateNodeRadius(n.level, globalScale);
 
-  if (!n?.isNumber) {
+  if (isNaN(n.courseId)) {
     const img = nodeState.getImage(n.id, n.img);
-
-    if (img.complete) {
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, nodeRadius, 0, 2 * Math.PI, false);
-      ctx.clip();
-
-      ctx.drawImage(
-        img,
-        n.x - nodeRadius,
-        n.y - nodeRadius,
-        2 * nodeRadius,
-        2 * nodeRadius
-      );
-
-      ctx.restore();
-    }
+    drawNodeImage(ctx, img, n.x, n.y, nodeRadius);
   } else {
-    ctx.beginPath();
-    ctx.arc(n.x, n.y, nodeRadius, 0, 2 * Math.PI, false);
-    ctx.fillStyle = palettes[n.level - 1] || palettes[palettes.length - 1];
-    ctx.fill();
+    const color = palettes[n.level - 1] || palettes[palettes.length - 1];
+    drawColoredNode(ctx, n.x, n.y, nodeRadius, color);
   }
 
-  ctx.fillText(n.name, n.x, n.y + nodeRadius + fontSize);
+  const nodeName = !isNaN(n.courseId) ? `${n.courseId}. ${n.name}` : n.name;
+  ctx.fillText(nodeName, n.x, n.y + nodeRadius + fontSize);
+  
 };
 
-export const configureGraph = (graph, graphData) => {
+const configureGraph = (graph, graphData) => {
   graph
-  .graphData(graphData)
-  .nodeLabel("name")
-  .nodeAutoColorBy("group")
-  .linkColor(() => "#999")
-  .nodeColor((node) => node.color || "lightblue")
-  .nodeCanvasObject((node, ctx, globalScale) => {
-    const nodeColor = node.color || "lightblue";
-    drawNode(node, ctx, globalScale, nodeColor);
-  })
-  .linkDirectionalArrowLength(3)
-  .linkDirectionalArrowColor(() => "gray")
-  .minZoom(2.2)
-  .centerAt(0, 20)
-  .d3Force("charge").distanceMax(85)
+    .graphData(graphData)
+    .linkColor(() => linkColor)
+    .nodeColor((node) => node.color)
+    .nodeCanvasObject((node, ctx, globalScale) => {
+      const nodeColor = node.color;
+      drawNode(node, ctx, globalScale, nodeColor);
+    })
+    .linkDirectionalArrowLength(arrowLength)
+    .linkDirectionalArrowColor(() => linkArrowColor)
+    .minZoom(minZoom)
+    .centerAt(centerAtX, centerAtY)
+    .onZoom((currentZoom) => {
+      const adjustedArrowLength =  12 / currentZoom.k;
+      graph.linkDirectionalArrowLength(adjustedArrowLength);
+    })
+    .d3Force("charge")
+    .distanceMax(distanceMax)
+    
+};
 
-}
-
-export const handleNodeHover = (graph, node, graphData) => {
+const findConnectedElements = (node, graphData) => {
   const connectedNodes = new Set();
   const connectedLinks = new Set();
 
@@ -78,53 +110,64 @@ export const handleNodeHover = (graph, node, graphData) => {
     });
   }
 
+  return { connectedNodes, connectedLinks };
+};
+
+const updateGraphVisuals = (graph, connectedNodes, connectedLinks) => {
   graph
     .nodeCanvasObject((n, ctx, globalScale) => {
-      const nodeColor = connectedNodes.has(n) ? "#638C6D" : n.color;
-      drawNode(n, ctx, globalScale, nodeColor);
+      const toggleNodeColor = connectedNodes.has(n) ? nodeColor : n.color;
+      drawNode(n, ctx, globalScale, toggleNodeColor);
     })
-    .linkColor((l) => (connectedLinks.has(l) ? linkColor : "#999"))
+    .linkColor((l) => (connectedLinks.has(l) ? activelinkColor : linkColor))
     .linkDirectionalArrowColor((l) =>
-      connectedLinks.has(l) ? linkColor : "#999"
+      connectedLinks.has(l) ? activelinkColor : linkColor
     );
 };
 
-function convertToKebabCase(input) {
-  return input.toLowerCase().replace(/\s+/g, "-");
-}
+const handleNodeHover = (graph, node, graphData) => {
+  const { connectedNodes, connectedLinks } = findConnectedElements(
+    node,
+    graphData
+  );
+  updateGraphVisuals(graph, connectedNodes, connectedLinks);
+};
 
-export const handleNodeClick = (graph, node, graphData, formData) => {
+const generateId = (input) => {
+  return input.toLowerCase().replace(/\s+/g, "-");
+};
+
+const generateNewNode = (node, name, isMainCourse) => {
+  const courseId = isMainCourse ? nodeState.incrementCourses() : undefined;
+  const newImg = isMainCourse ? "" : defaultImage(nodeState.incrementImages());
+  const newId = generateId(name);
+
+  return {
+    id: newId,
+    name,
+    color: "lightblue",
+    level: node.level + 1,
+    img: newImg,
+    courseId
+  };
+};
+
+const generateNewLink = (sourceNode, targetId, targetName) => ({
+  source: sourceNode.id,
+  target: targetId,
+  name: `Link: ${sourceNode.name} to ${targetName}`,
+});
+
+const handleNodeClick = (graph, node, graphData, formData) => {
   const { name, type } = formData;
   const isMainCourse = type === "course";
-  
-  const generateNewNode = (node) => {
-    const newName = isMainCourse ? `${nodeState.incrementCourses()}. ${name}` : name;
-    const newImg = isMainCourse ? "" : defaultImage(nodeState.incrementImages());
-    const newId = convertToKebabCase(name);
 
-    return {
-      id: newId,
-      name: newName,
-      color: "lightblue",
-      level: node.level + 1,
-      isNumber: isMainCourse,
-      img: newImg,
-    };
-  };
-
-  const generateNewLink = (node, id, name) => ({
-    source: node.id,
-    target: id,
-    name: `Link: ${node.name} to ${name}`,
-  });
-
-  const newNode = generateNewNode(node);
+  const newNode = generateNewNode(node, name, isMainCourse);
   const newLink = generateNewLink(node, newNode.id, name);
 
   graphData.nodes.push(newNode);
   graphData.links.push(newLink);
-
   graph.graphData(graphData);
-
 };
 
+export { handleNodeClick, handleNodeHover, configureGraph };

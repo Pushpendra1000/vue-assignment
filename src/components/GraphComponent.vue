@@ -1,57 +1,12 @@
-<template>
-  <div>
-    <div ref="graphContainer" class="graph-container"></div>
-
-    <div v-if="showModal" class="modal-overlay">
-      <div class="modal">
-        <h3>Add Course/Module</h3>
-        <form @submit.prevent="handleSubmit">
-          <label for="nodeName">Name:</label>
-          <input
-            type="text"
-            id="nodeName"
-            v-model="formData.name"
-            placeholder="Enter name"
-            required
-          />
-
-          <label>Type:</label>
-          <div class="radio-group">
-            <label>
-              <input
-                type="radio"
-                name="nodeType"
-                value="course"
-                v-model="formData.type"
-                required
-              />
-              Course
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="nodeType"
-                value="module"
-                v-model="formData.type"
-              />
-              Module
-            </label>
-          </div>
-          <div class="btn-wrapper">
-            <button type="submit">Add</button>
-            <button type="button" @click="closeModal">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import forceGraph from "force-graph";
-import { configureGraph, handleNodeHover, handleNodeClick } from "../utils/graphConfig";
-import { getNumOfCourses } from "../utils/helper";
+import {
+  configureGraph,
+  handleNodeHover,
+  handleNodeClick,
+} from "../utils/graphConfig";
+import { getCoursesData } from "../utils/helper";
 
 export default {
   name: "GraphComponent",
@@ -59,18 +14,19 @@ export default {
     const graphContainer = ref(null);
     const showModal = ref(false);
     const selectedNode = ref(null);
-    
+    const isModuleCourse = ref(true);
+
     const formData = reactive({
       name: "",
       type: "module",
     });
-    
+
     const graph = ref(null);
     const graphData = ref(null);
 
     const initializeGraph = async () => {
       try {
-        const result = await getNumOfCourses();
+        const result = await getCoursesData();
         graphData.value = result.graphData;
 
         if (graphData.value) {
@@ -83,6 +39,8 @@ export default {
 
           graph.value.onNodeClick((node) => {
             selectedNode.value = node;
+
+            isModuleCourse.value = !isNaN(node.courseId);
             showModal.value = true;
           });
         } else {
@@ -98,7 +56,6 @@ export default {
         alert("Both name and type are required!");
         return;
       }
-
       handleNodeClick(
         graph.value,
         selectedNode.value,
@@ -112,6 +69,7 @@ export default {
       showModal.value = false;
       formData.name = "";
       formData.type = "module";
+      // showCourse.value = true;
     };
 
     onMounted(() => {
@@ -121,6 +79,7 @@ export default {
     return {
       graphContainer,
       showModal,
+      isModuleCourse,
       formData,
       handleSubmit,
       closeModal,
@@ -128,6 +87,62 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <div ref="graphContainer" class="graph-container"></div>
+
+    <div v-if="showModal" class="modal-overlay" aria-labelledby="modalTitle">
+      <div class="modal">
+        <h3 id="modalTitle">Add Course/Module</h3>
+        <form @submit.prevent="handleSubmit">
+          <div class="form-row">
+            <label for="nodeName">Name:</label>
+            <input
+              type="text"
+              id="nodeName"
+              v-model="formData.name"
+              placeholder="Enter the name of the course or module."
+              required
+              aria-describedby="nameDescription"
+            />
+          </div>
+
+          <div class="form-row">
+            <label>Type:</label>
+            <div class="radio-group">
+              <label v-if="isModuleCourse">
+                <input
+                  type="radio"
+                  name="nodeType"
+                  value="course"
+                  v-model="formData.type"
+                  required
+                  aria-label="Course"
+                />
+                <span>Course</span>
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="nodeType"
+                  value="module"
+                  v-model="formData.type"
+                  aria-label="Module"
+                />
+                <span>Module</span>
+              </label>
+            </div>
+          </div>
+          <div class="btn-wrapper">
+            <button type="submit">Add</button>
+            <button type="button" @click="closeModal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .graph-container {
@@ -170,15 +185,25 @@ export default {
   gap: 10px;
 }
 
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  margin-right: 10px;
+}
+
 .modal form input {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  width: 100%;
 }
 
 .radio-group {
   display: flex;
-  gap: 15px;
 }
 
 .radio-group label {
@@ -187,10 +212,17 @@ export default {
   gap: 5px;
 }
 
-/* Button styles */
-.modal form button {
+.btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.btn-wrapper button {
+  width: 100%;
+  max-width: 113px;
+  margin-right: 20px;
   padding: 10px;
-  border: none;
   border-radius: 4px;
   background: #5e1675;
   color: white;
@@ -201,14 +233,18 @@ export default {
   background: #ccc;
 }
 
-.btn-wrapper {
-  display: flex;
-  justify-content: center;
+input[type="radio" i] {
+  margin: 8px;
 }
 
-.btn-wrapper button {
-  width: 100%;
-  max-width: 113px;
-  margin-right: 20px;
+/* Accessibility Enhancements */
+input[type="text"],
+input[type="radio"] {
+  margin-bottom: 10px;
+}
+
+small {
+  font-size: 0.9em;
+  color: #666;
 }
 </style>

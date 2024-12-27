@@ -1,8 +1,8 @@
 export class NodeState {
-  constructor(numOfCourses) {
+  constructor(numOfCourses, numOfModules) {
     this.imgCache = {};
     this.numOfCourses = numOfCourses;
-    this.numOfImages = 19;
+    this.numOfImages = numOfModules;
   }
 
   getImage(id, imgSrc) {
